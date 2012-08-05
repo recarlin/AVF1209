@@ -1,0 +1,52 @@
+/*
+ Russell Carlin
+ AVF 1209
+*/
+#allStuff{
+	background: url("../images/wood.jpg") repeat-x;
+	padding: 2em 0;
+	clear:both;
+	float:left;
+	width:100%;
+	overflow:hidden;
+}
+body {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		width: 100%;
+}
+#divideStuff{
+	float:left;
+	width:100%;
+	position:relative;
+}
+#rightCol, 
+#leftCol {
+	float:left;
+	position:relative;
+	padding:0 0 1em 0;
+	overflow:hidden;
+}
+#divideStuff {
+	right:50%;
+}
+#leftCol {
+	width:46%;
+	left:52%;
+}
+#rightCol {
+	width:46%;
+	left:56%;
+}
+
+.title{
+	background: black;
+	color: white;
+}
+.title h1, h2{
+	padding: .25em;
+}
+.title p{
+	float: right;
+}

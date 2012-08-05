@@ -1,0 +1,35 @@
+/*
+ Russell Carlin
+ MIU 1202
+ Project 4
+*/
+.tooltip{
+	margin-bottom: 10px;
+	color: #bbbbbb;
+	margin-left: 15px;
+	font-size: 14px 
+}
+
+.logoImage, .centerText{
+	text-align: center;
+}
+
+label.error{
+	color: red;
+}
+
+#gCTA, #bCTA{
+	width: 290px;
+	height: 200px;
+	background: url('../images/CTA.PNG');
+	background-size: 100%;
+	background-repeat: no-repeat;
+	position: relative;
+}
+
+#startButton{
+	position: absolute;
+	bottom: 5px;
+	left: 5px;
+	width: 270px;
+}
