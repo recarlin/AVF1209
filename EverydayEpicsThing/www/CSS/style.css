@@ -1,35 +1,116 @@
 /*
  Russell Carlin
- MIU 1202
  Project 4
+ VFW 1-12
 */
-.tooltip{
-	margin-bottom: 10px;
-	color: #bbbbbb;
-	margin-left: 15px;
-	font-size: 14px 
+html{
+    border: 5px solid blue;
+    overflow: scroll;
 }
-
-.logoImage, .centerText{
-	text-align: center;
+body{
+    font: 14px/1.4em arial;
+    color: white;
+    background: darkblue;
 }
-
-label.error{
-	color: red;
+h1{
+    font: bold 30px/1em garamond;
+    color: gold;
+    text-transform: uppercase;
+    text-align: center;
+    background: darkred;
+    border: 2px double blue;
+    margin: 5px 5px 25px 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
-
-#gCTA, #bCTA{
-	width: 290px;
-	height: 200px;
-	background: url('../images/CTA.PNG');
-	background-size: 100%;
-	background-repeat: no-repeat;
-	position: relative;
+header, h2{
+    margin-left: 10px;
+    text-align: center;
 }
-
-#startButton{
-	position: absolute;
-	bottom: 5px;
-	left: 5px;
-	width: 270px;
+fieldset{
+    border: 2px solid blue;
+    margin: 10px 10px 5px 10px;
+}
+textarea{
+    height: 100px;
+    width: 260px;
+}
+#runeCat{
+    list-style-type: none;
+    text-indent: -40px;
+}
+label#m{
+    color: red;
+}
+label#s{
+    color: yellow;
+}
+label#g{
+    color: lightblue;
+}
+label#q{
+    color: #DC98ED;
+}
+#addMore, #show, #clear, #start{
+    font: bold 14px/1.4em garamond;
+    color: gold;
+    text-transform: uppercase;
+    background: darkred;
+    border: 2px solid blue;
+    padding: 10px;
+    text-decoration: none;
+}
+a{
+    font: bold 14px/1.4em garamond;
+    color: gold;
+    text-transform: uppercase;
+    background: darkred;
+    border: 2px solid blue;
+    padding: 2px;
+    text-decoration: none;
+}
+#del{
+    margin-left: 5px;
+}
+input[type="submit"]:hover{
+    background: red;
+}
+input[type="submit"]:active{
+    color: darkred;
+    background: gold;
+}
+#addMore:hover, #show:hover, #clear:hover, #start:hover, #add:hover{
+    background: red;
+}
+#addMore:active, #show:active, #clear:active, #start:active, #add:active{
+    color: darkred;
+    background: gold;
+}
+#start, #add{
+    display: inline-block;
+    width: 320px;
+    font: bold 20px/2em garamond;
+    color: gold;
+    text-transform: uppercase;
+    background: darkred;
+    border: 2px solid blue;
+    padding: 0px;
+    width: 320px;
+}
+section, nav, #sub{
+    text-align: center;
+}
+#addMore, #show, #clear{
+    display: inline-block;
+    width: 140px;
+}
+img{
+    margin-right: 60px;
+}
+#guide{
+    list-style-type: none;
+}
+#del, #edit{
+    display: inline-block;
+    width: 140px;
 }
