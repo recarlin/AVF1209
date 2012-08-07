@@ -1,0 +1,44 @@
+/*
+ Russell Carlin
+ AVF 1209
+*/
+html {
+	background: #3399FF;
+}
+#logo {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 1em;
+	margin-top: 10%;
+	padding: 1em;
+	border: .5em double #FFFF00;
+	border-radius: 1em;
+}
+#logo img{
+	width: 100%;
+}
+#buttons {
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: justify;
+}
+#buttons div {
+	width: 40%;
+	display: inline-block;
+}
+#buttonNew {
+	float: right;
+}
+#buttonStash {
+	float: left;
+}
+#buttons div img{
+	width: 100%;
+}
+@media (max-width: 640px) {
+	#logo {
+		border: .35em double #FFFF00;
+	}
+}
