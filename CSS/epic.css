@@ -29,10 +29,10 @@ html {
 	display: inline-block;
 }
 #buttonNew {
-	float: right;
+	float: left;
 }
 #buttonStash {
-	float: left;
+	float: right;
 }
 #buttons div img{
 	width: 100%;
