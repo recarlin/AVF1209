@@ -24,6 +24,7 @@
 	<true/>
 	<key>ExternalHosts</key>
 	<array>
+		<string>*googleapis.com</string>
 		<string>*.jquery.com</string>
 	</array>
 	<key>Plugins</key>

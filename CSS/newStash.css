@@ -2,9 +2,23 @@
  Russell Carlin
  AVF 1209
 */
+html {
+	background: #3399FF;
+}
+#logo2 {
+	width: 40%;
+	height: 10%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: .25em;
+	border: .5em double #FFFF00;
+	border-radius: .5em;
+}
+#logo2 img{
+	width: 100%;
+	height: 100%;
+}
 #allStuff {
-	background: url('../images/wood.jpg') repeat-x;
-	padding: 2em 0;
 	width: 100%;
 	height: 100%;
 	margin: 0 auto -4em;
@@ -61,16 +75,12 @@ li {
 ul {
 	margin-left: -2em;
 }
-#footer {
-	background: url('../images/wood.jpg') repeat-x;
+#leftCol img {
+	width: 100%;
+	height: 100%;
 }
-#footer{
-	height: 4em;
-	clear: both;
-}
-
 @media (max-width: 640px) {
-	body {
-		font-size: .75em;
+	#logo {
+		border: .35em double #FFFF00;
 	}
 }
