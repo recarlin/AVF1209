@@ -27,8 +27,13 @@ function onDeviceReady() {
 		gei('locPlace').innerHTML = 'Latitude: ' + position.coords.latitude + '<br/>' + 'Longitude: ' + position.coords.longitude;
 	};
 	function onSuccess(position){
-		
-        alert(position);
+		navigator.notification.beep(1);
+		navigator.notification.alert(
+			'Location added!',
+			postLoc(position),
+			'SUCCESS',
+			'OK'
+        );
 	};
 	function onError(){
 		navigator.notification.beep(2);
@@ -40,7 +45,7 @@ function onDeviceReady() {
         );
 	};
 	function addLoc(){
-		var geoOptions = { timeout: 10000, enableHighAccuracy: true }
+		var geoOptions = { timeout: 10000, enableHighAccuracy: true };
 		navigator.geolocation.getCurrentPosition(onSuccess, onError, geoOptions);
 	};
 	function chngDsply(){
