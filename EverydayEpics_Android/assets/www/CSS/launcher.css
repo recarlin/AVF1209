@@ -13,19 +13,16 @@ html {
 	height: 100%;
 }
 body {
-		margin: 0;
-		padding: 0;
-		border: 0;
-		width: 100%;
-		height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 100%;
+	height: 100%;
 }
 #divideStuff {
 	float: left;
 	width: 100%;
 	position: relative;
-}
-#sheet {
-	border: 2px solid black;
 }
 #rightCol, 
 #leftCol {
@@ -55,6 +52,34 @@ body {
 .title span {
 	font-size: .75em;
 }
+li {
+	padding: .1em;
+	display: inline-block;
+	border: .1em solid black;
+	width: 6em;
+	text-align: center;
+	margin: .1em;
+}
+li:hover {
+	background: lightgray;
+}
+li:active {
+	background: gray;
+}
+#back {
+	border: .1em solid black;
+	width: 6em;
+	text-align: center;
+}
+#back:hover {
+	background: lightgray;
+}
+#back:active {
+	background: gray;
+}
+ul {
+	margin-left: -2em;
+}
 #footer {
 	background: url('../images/wood.jpg') repeat-x;
 }
@@ -62,15 +87,10 @@ body {
 	height: 4em;
 	clear: both;
 }
-li {
-	font-size: 1.5em;
-	padding: .5em;
-	display: inline;
-	line-height: 2em;
+#dis1, #dis2, #dis3, #back {
+	margin: 0 2%;
 }
-ul {
-	margin-left: -2em;
-}
+
 @media (max-width: 640px) {
 	body {
 		font-size: .75em;
