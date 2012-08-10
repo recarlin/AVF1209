@@ -1,5 +1,3 @@
-document.addEventListener("deviceready", onDeviceReady());
-
 function onDeviceReady() {
 	
 	function gei(id) {
@@ -22,23 +20,15 @@ function onDeviceReady() {
 		gei('stash').style.display = 'none';
 		gei('backHome').style.display = 'none';
 	};
-	function addLoc(){
-		navigator.geolocation.getCurrentPosition(onSuccess, onError, { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
-	};
 	function addPic(){
 		
 	};
-	function onSuccess(position){
-		navigator.notification.beep(1);
-		navigator.notification.alert(
-			'Location added!',
-			postLoc(position),
-			'SUCCESS',
-			'OK'
-        );
-	};
 	function postLoc(position){
 		gei('locPlace').innerHTML = 'Latitude: ' + position.coords.latitude + '<br/>' + 'Longitude: ' + position.coords.longitude;
+	};
+	function onSuccess(position){
+		
+        alert(position);
 	};
 	function onError(){
 		navigator.notification.beep(2);
@@ -48,6 +38,10 @@ function onDeviceReady() {
 			'ERROR',
 			'OK'
         );
+	};
+	function addLoc(){
+		var geoOptions = { timeout: 10000, enableHighAccuracy: true }
+		navigator.geolocation.getCurrentPosition(onSuccess, onError, geoOptions);
 	};
 	function chngDsply(){
 		var chngTxt = this.value,
@@ -101,3 +95,4 @@ function onDeviceReady() {
 	var st4 = gei('iStat4');
 	st4.addEventListener('change', chngDsply);
 };	
+document.addEventListener("deviceready", onDeviceReady());
