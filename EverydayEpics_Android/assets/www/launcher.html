@@ -10,12 +10,39 @@
 	<meta name='robots' content='index, follow' />
 	<meta http-equiv='cleartype' content='on'/>
 	<link rel='stylesheet' href='CSS/launcher.css'/>
+	<script type='text/javascript' charset='utf-8' src='JS/cordova-2.0.0.js'></script>
 </head>
 <body>
 	<div id='allStuff'>
-		<div class='title'>
+		<div class='title' id='hed'>
 			<h1>CHARACTER SHEET</h1>
 		</div>
+		
+		<section id='discuss'>
+			<div id='dis1' style='display: none'>
+				<p><strong>What types of native features (on Android and iOS devices) would you be able to implement with the use of HTML/CSS/JS only?</strong></br>
+				Phone gap covers many native features for Android and iOS devices. Accelerometer, Camera, Compass, Contacts, File, Geolocation, Media, Network, Notifications, and Storage features are all supported and accessible with HTML/CSS/JS only.</p>
+				
+				<p><strong>For your CRUD app revision and/or Demo App components, which of these do you think you will implement?</strong></br>
+				I plan on using the camera as the backbone of my app. From there I, hopefully, be able to save the images created to the devices, utilizing the native file system. Also, I would like to use the geolocation feature to display where the picture was taken from.</p>
+				
+				<p><strong>Briefly describe some past 'lessons learned' regarding workflow as it relates to research, design, development, etc.</strong></br>
+				Reading everything, planning things out, and working one step at a time are things that I’ve learned help a lot. Missing an important step is always a frustrating situation when you spend a lot of time on trying to figure it out. Jumping straight into a project without any forethought is a terrible idea and will drive you insane. Finally, breaking a big problem into small ones, then working at them one at a time, is a great way to getting over a big hurdle.</p>
+				
+				<p><strong>Please describe any design intentions you may have for the AVF Demo app and the revised/new version of your CRUD app.</strong></br>
+				For my new app I plan on making a fun app that allows you to take pictures of whatever you want and turn it into an item in a game. You then can add “stats” to the item details, like +5 Cold Resistance for a sweater. The app will then display where the item was found, using geolocation. At least this is what I’m planning for it to do.</p>
+			</div>
+			<div id='dis2' style='display: none'>
+		
+			</div>
+			<div id='dis3' >
+			
+			</div>
+			<div id='back' style='display: none'>
+				<p>Back</p>
+			</div>
+		</section>
+		
 		<div id='divideStuff'>
 			<div id='leftCol'>
 				<section id='info'>
@@ -33,9 +60,9 @@
 						<h2>LORE <span>(Discussion Responses)</span></h2>
 					</div>
 					<ul>
-						<li><a class='button' href='discuss.html'>Week 1<a/></li>
-						<li><a class='button' href='discuss.html'>Week 2<a/></li>
-						<li><a class='button' href='discuss.html'>Week 3<a/></li>
+						<li id='disClick1'><p>Week 1<p/></li>
+						<li id='disClick2'><p>Week 2<p/></li>
+						<li id='disClick3'><p>Week 3<p/></li>
 					</ul>
 				</section>
 			</div>
@@ -45,8 +72,8 @@
 						<h2>FEATS <span>(CRUD Apps)</span></h2>
 					</div>
 					<ul>
-						<li><a class='button' href='index.html'>VFW CRUD<a/></li>
-						<li><a class='button' href='epic.html'>AVF CRUD<a/></li>
+						<li id='VFW'><p>VFW CRUD<p/></li>
+						<li id='AVF'><p>AVF CRUD<p/></li>
 					</ul>
 				</section>
 				<section id='skills'>
@@ -54,16 +81,16 @@
 						<h2>SKILLS <span>(Native Features)</span></h2>
 					</div>
 					<ul>
-						<li><a class='button' href='discuss.html'>Camera<a/></li>
-						<li><a class='button' href='discuss.html'>Geolocation<a/></li></br>
-						<li><a class='button' href='discuss.html'>Notifications<a/></li>
-						<li><a class='button' href='discuss.html'>File System<a/></li>
+						<li class='feats'><p>Camera<p/></li>
+						<li class='feats'><p>Geolocation<p/></li>
+						<li class='feats'><p>Notifications<p/></li>
+						<li class='feats'><p>File System<p/></li>
 					</ul>
 				</section>
 			</div>
 		</div>
 	</div>
 	<div id='footer'></div>
-<script type='text/javascript' src='js/main.js'></script>
+	<script type='text/javascript' src='JS/launcher.js'></script>
 </body>
 </html>
