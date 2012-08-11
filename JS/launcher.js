@@ -1,9 +1,12 @@
-document.addEventListener("deviceready", onDeviceReady());
-
 function onDeviceReady() {
 	
 	function gei(id) {
 	    var e = document.getElementById(id);
+	    return e;
+	};
+	function gec(cln) {
+	    var e = document.getElementsByClassName(cln);
+	   console.log(e)
 	    return e;
 	};
 	function showDis1(){
@@ -37,10 +40,17 @@ function onDeviceReady() {
 		gei('hed').innerHTML = '<h1>CHARACTER SHEET</h1>';
 	};
 	function chngVFW(){
-		window.location.href = 'http://recarlin.github.com/LoL_Guide_Builder/';
+		window.location.href = 'index.html';
 	};
 	function chngAVF(){
 		window.location.href = 'epic.html';
+	};
+	function goEpic(){
+		var linkC = gec('goAVF');
+		
+		for(var i = 0, l=linkC.length; i<l; i++){
+			linkC[i].addEventListener('click', chngAVF);
+		};
 	};
 	
 	var discuss1 = gei('disClick1');
@@ -58,7 +68,7 @@ function onDeviceReady() {
 	var vfw = gei('VFW');
 	vfw.addEventListener('click', chngVFW);
 	
-	var avf = gei('AVF');
-	avf.addEventListener('click', chngAVF);
+	goEpic();
 	
 };
+document.addEventListener("deviceready", onDeviceReady());
