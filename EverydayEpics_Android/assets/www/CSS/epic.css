@@ -1,11 +1,23 @@
-/*
- Russell Carlin
- AVF 1209
-*/
+/* Russell Carlin - AVF 1209 */
+
+/* Overall Styles */
 html {
 	background: #3399FF;
 	height: 100%;
 }
+#allStuff {
+	width: 100%;
+	height: 100%;
+}
+body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/* Home Styles */
 #logo {
 	width: 80%;
 	margin-left: auto;
@@ -47,6 +59,7 @@ html {
 	padding: .5em;
 }
 
+/* New Item Styles */
 #logo2 {
 	width: 40%;
 	height: 10%;
@@ -60,17 +73,23 @@ html {
 	width: 100%;
 	height: 100%;
 }
-#allStuff {
-	width: 100%;
-	height: 100%;
+#backHome {
+	color: #FFFF00;
+	float: left;
+	margin: .25em;
+	border: .25em solid #FFFF00;
+	border-radius: .5em;
+	padding: 0 .5em;
 }
-body {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	width: 100%;
-	height: 100%;
+li p{
+	line-height: -.5em;
 }
+ul {
+	margin-left: -2em;
+	list-style: none;
+}
+
+/* Layout Styles */
 #divideStuff {
 	float: left;
 	width: 100%;
@@ -90,13 +109,8 @@ body {
 #rightCol {
 	left: 56%;
 }
-li p{
-	line-height: -.5em;
-}
-ul {
-	margin-left: -2em;
-	list-style: none;
-}
+
+/* Left Column Styles */
 #leftCol div {
 	color: #FFFF00;
 	border: .25em solid #FFFF00;
@@ -106,17 +120,15 @@ ul {
 	margin-left: 2%;
 }
 #tPic {
-	height: 5em;
+
 	margin: 0 1%;
 }
-#backHome {
-	color: #FFFF00;
-	float: left;
-	margin: .25em;
-	border: .25em solid #FFFF00;
-	border-radius: .5em;
-	padding: 0 .5em;
+#tPic img {
+	width: 100%;
+	height: auto;
 }
+
+/* Right Column Styles */
 #basics {
 	color: #FFFF00;
 	border: .25em solid #FFFF00;
@@ -124,6 +136,9 @@ ul {
 	border-radius: .5em;
 }
 #nativeFeatures {
+	width: 95%;
+}
+input {
 	width: 95%;
 }
 #ft {
@@ -142,7 +157,7 @@ ul {
 	text-align: center;
 }
 #location:active, #picture:active {
-	border: .25em solid red;
+	border-bottom: .25em solid red;
 }
 #location {
 	float: left;
@@ -150,9 +165,9 @@ ul {
 #picture {
 	float: right;
 }
-input {
-	width: 95%;
-}
+
+/* Stash Styles */
+
 @media (max-width: 640px) {
 	#logo {
 		border: .35em double #FFFF00;
