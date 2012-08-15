@@ -10,18 +10,18 @@
 	<meta name='robots' content='index, follow' />
 	<meta http-equiv='cleartype' content='on'/>
 	<link rel='stylesheet' href='CSS/epic.css'/>
-	<script type='text/javascript' charset='utf-8' src='JS/cordova-2.0.0.js'></script>
 </head>
 <body>
 	<div id='allStuff'>
 		<div id='backHome' style='display: none'><p>Home</p></div>
-		
 		<!-- Home Display -->
 		<section id='home'>
+			<!-- Header -->
 			<a id='bckbtn' href='index.html'>Back to Launcher</a>
 			<div id='logo'>
 				<img src='images/logo3.png' alt='Everyday Epics'/>
 			</div>
+			<!-- Buttons -->
 			<div id='buttons'>
 				<div id='buttonNew'>
 					<img id='clickNew' src='images/new.png' alt='New Item'/>
@@ -31,13 +31,14 @@
 				</div>
 			</div>
 		</section>
-		
 		<!-- New Item Display -->
 		<section id='newItem' style='display: none'>
-			<div id='logo2'>
+			<!-- Header -->
+			<div class='logo2'>
 				<img src='images/logo3.png' alt='Everyday Epics'/>
 			</div>
 			<div id='divideStuff'>
+				<!-- Left Column -->
 				<div id='leftCol'>
 					<div>
 						<h2 id='tName'>Keyboard of HTML</h2>
@@ -47,12 +48,13 @@
 							<li><p id='tStat2'>+1337 Awesome</p></li>
 							<li><p id='tStat3'>+42 Agility</p></li>
 							<li><p id='tStat4'>CODE MODE: Grants the user extreme coding abilities for 1 hour.</p></li>
-							<li><p id='locPlace'></p></li>
+							<li><p id='tLoc'></p></li>
 						</ul>
 					</div>
 				</div>
+				<!-- Right Column -->
 				<div id='rightCol'>
-					
+					<!-- Basics -->
 					<section id='basics'>
 						<ul>
 							<li><label for='iName'>Item Name:</label></br>
@@ -71,7 +73,7 @@
 							<input type='text' id='iStat4' placeholder='CODE MODE: Grants the user extreme coding abilities for 1 hour.'/></li>
 						</ul>
 					</section>
-				
+					<!-- Native Features -->
 					<section id='nativeFeatures'>
 						<p id='ft'>Click to add native features</p>
 						<div id='location'>
@@ -85,10 +87,33 @@
 				</div>
 			</div>
 		</section>
-		
 		<!-- Stash Display -->
 		<section id='stash' style='display: none'>
-			
+			<!-- Header -->
+			<div class='logo2'>
+				<img src='images/logo3.png' alt='Everyday Epics'/>
+			</div>
+			<h1>Stashed Epics</h1>
+	
+		</section>
+		<!-- Item Display -->
+		<section id='item' style='display: none'>
+			<!-- Header -->
+			<div class='logo2'>
+				<img src='images/logo3.png' alt='Everyday Epics'/>
+			</div>
+			<!-- Item -->
+			<div>
+				<h2 id='dName'></h2>
+				<div id='dPic'></div>
+				<ul>	
+					<li><h3 id='dMStat'></h3></li>
+					<li><p id='dStat2'></p></li>
+					<li><p id='dStat3'></p></li>
+					<li><p id='dStat4'></p></li>
+					<li><p id='dLoc'></p></li>
+				</ul>
+			</div>
 		</section>
 	</div>
 	<script type='text/javascript' src='JS/epic.js'></script>

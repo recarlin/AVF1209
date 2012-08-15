@@ -1,3 +1,5 @@
+var currentImage = '';
+
 function onDeviceReady() {
 	
 	function gei(id) {
@@ -25,10 +27,11 @@ function onDeviceReady() {
 	
 	/* Post Native Features */
 	function postLoc(position){
-		gei('locPlace').innerHTML = 'Latitude: ' + position.coords.latitude + '<br/>' + 'Longitude: ' + position.coords.longitude;
+		gei('tLoc').innerHTML = 'Latitude: ' + position.coords.latitude + '<br/>' + 'Longitude: ' + position.coords.longitude;
 	};
 	function postPic(imageURI){
 		gei('tPic').innerHTML = '<img alt="Your Item" src="' + imageURI + '"></img>';
+		var currentImage = imageURI;
 	};
 	
 	/* Native Features Success/Error */
@@ -71,7 +74,7 @@ function onDeviceReady() {
 	
 	/* Get Native Features */
 	function addPic(){
-		var picOptions = { quality: 50, destinationType: Camera.DestinationType.FILE_URI };
+		var picOptions = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, saveToPhotoAlbum: true };
 		navigator.camera.getPicture( cameraSuccess, cameraError, picOptions );
 	};
 	function addLoc(){
@@ -101,6 +104,47 @@ function onDeviceReady() {
 			};
 		};
 	};
+	/* Save New Item */
+	function saveItem(){
+		var item = {};
+			item.name	= gei('iName').value;
+            item.main	= gei('iMStat').value;
+            item.stat2	= gei('iStat2').value;
+            item.stat3	= gei('iStat3').value;
+            item.stat4	= gei('iStat4').value;
+	    
+	    localStorage.setItem(item.name, JSON.stringify(item));
+	    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null); 
+
+		function onRequestFileSystemSuccess(fileSystem);
+			var entry=fileSystem.root;
+			entry.getDirectory('Epics', {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail);
+		};
+		
+function onfail(error,caller){
+	error = error || '[error]';
+	caller = caller || '[caller]';
+	alert('Error > '+caller+" code: "+error.code);
+};
+
+function getImageURI(){
+	window.resolveLocalFileSystemURI(currentImage, gotFileEntry, function(error){onfail(error,'Get Target Image')}); 
+	
+	function gotFileEntry(targetImg){  
+		window.resolveLocalFileSystemURI(POSTPATH, gotDestinationEntry, function(error){onfail(error,'Get Destination Dir')});
+		
+		function gotDestinationEntry(destination){
+			targetImg.moveTo(destination, targetImg.name, moveSuccess, function(error){onfail(error,'Move Image')}); 
+			alert('dest :'+destination.fullPath);
+		};
+		
+		function moveSuccess(){
+			alert('FILE MOVE SUCCESSFUL!');   
+		};
+	};
+};
+
+
 
 	var cn = gei('clickNew');
 	cn.addEventListener('click', newItem);

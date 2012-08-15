@@ -1,4 +1,7 @@
-function onDeviceReady() {
+var currentImage,
+	fileSystem;
+
+function onDeviceReady(){
 	
 	function gei(id) {
 	    var e = document.getElementById(id);
@@ -23,12 +26,47 @@ function onDeviceReady() {
 		gei('backHome').style.display = 'none';
 	};
 	
+	function fail(error, from){
+		error = error;
+		from = from;
+		alert('From: ' + from +' Error: ' + error.code);
+	};
+	function moveSuccess(){
+		alert('Yay!');
+	};
+	
+	
+	
+	function gotFile(file){  
+		window.resolveLocalFileSystemURI('Epics', gotDestination, function(error){fail(error, 'Get Directory')});
+		function gotDestination(destination){
+			var fName = gei('iName');
+			file.moveTo(destination, fName, moveSuccess, function(error){fail(error, 'Move File')});
+		};
+	};
+	
+	function gotDirectory(){
+		window.resolveLocalFileSystemURI(currentImage, gotFile, function(error){fail(error, 'Get File')});
+	};
+	
+	function gotFileSystem(fs){
+		fileSystem = fs
+		fs.root.getDirectory('Epics', {create: true, exclusive: false}, gotDirectory, function(error){fail(error, 'Create Directory')});
+		alert(currentImage);
+	};
+	
+	function getFS(){
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFileSystem, function(error){fail(error, 'File System')});
+	};
+	
 	/* Post Native Features */
 	function postLoc(position){
-		gei('locPlace').innerHTML = 'Latitude: ' + position.coords.latitude + '<br/>' + 'Longitude: ' + position.coords.longitude;
+		gei('tLoc').innerHTML = 'Latitude: ' + position.coords.latitude + '<br/>' + 'Longitude: ' + position.coords.longitude;
 	};
 	function postPic(imageURI){
 		gei('tPic').innerHTML = '<img alt="Your Item" src="' + imageURI + '"></img>';
+		var currentImage = imageURI;
+		getFS();
 	};
 	
 	/* Native Features Success/Error */
@@ -71,7 +109,7 @@ function onDeviceReady() {
 	
 	/* Get Native Features */
 	function addPic(){
-		var picOptions = { quality: 50, destinationType: Camera.DestinationType.FILE_URI };
+		var picOptions = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, saveToPhotoAlbum: true };
 		navigator.camera.getPicture( cameraSuccess, cameraError, picOptions );
 	};
 	function addLoc(){
@@ -100,6 +138,18 @@ function onDeviceReady() {
 				};
 			};
 		};
+	};
+	
+	/* Save New Item */
+	function saveItem(){
+		var item = {};
+			item.name	= gei('iName').value;
+            item.main	= gei('iMStat').value;
+            item.stat2	= gei('iStat2').value;
+            item.stat3	= gei('iStat3').value;
+            item.stat4	= gei('iStat4').value;
+    
+	    localStorage.setItem(item.name, JSON.stringify(item));
 	};
 
 	var cn = gei('clickNew');
