@@ -40,7 +40,7 @@ function onDeviceReady() {
 		gei('hed').innerHTML = '<h1>CHARACTER SHEET</h1>';
 	};
 	function chngVFW(){
-		window.location.href = 'index.html';
+		window.location.href = 'http://recarlin.github.com/LoL_Guide_Builder/';
 	};
 	function chngAVF(){
 		window.location.href = 'epic.html';

@@ -1,34 +1,45 @@
-function onDeviceReady() {
+var currentIMG;
+function onDeviceReady(){
 	
+	/* General */
 	function gei(id) {
 	    var e = document.getElementById(id);
 	    return e;
 	};
+	function refreshHome(){
+		location.reload();
+	};
+	function fail(error, from){
+		error = error;
+		from = from;
+		alert('From: ' + from +' Error: ' + error.code);
+	};
 	
-	/* Display Toggles */
-	function newItem(){
-		gei('home').style.display = 'none';
-		gei('newItem').style.display = '';
-		gei('backHome').style.display = '';
-	};
-	function stash(){
-		gei('home').style.display = 'none';
-		gei('stash').style.display = '';
-		gei('backHome').style.display = '';
-	};
-	function goHome(){
-		gei('home').style.display = '';
-		gei('newItem').style.display = 'none';
-		gei('stash').style.display = 'none';
-		gei('backHome').style.display = 'none';
+	/* Create Folder/Move Picture */
+	function getFS(imageURI){
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getFile, function(error){fail(error, 'File System')});
+		function getFile(fs){  
+			window.resolveLocalFileSystemURI(imageURI, getDestination, function(error){fail(error, 'Get File')});
+			function getDestination(file){  
+				fs.root.getDirectory('Epics', {create: true, exclusive: false}, gotDir, function(error){fail(error, 'Create Directory')});
+				function gotDir(destination){
+					var fName = gei('iName').value + '.jpg';
+					file.moveTo(destination, fName, moveSuccess, function(error){fail(error, 'Move File')});
+					function moveSuccess(){
+						currentIMG = fName;
+					};
+				};
+			};
+		};
 	};
 	
 	/* Post Native Features */
 	function postLoc(position){
-		gei('locPlace').innerHTML = 'Latitude: ' + position.coords.latitude + '<br/>' + 'Longitude: ' + position.coords.longitude;
+		gei('tLoc').innerHTML = 'Item found at ' + position.coords.latitude + ' latitude' + '<br/>' + 'and ' + position.coords.longitude + ' longitude';
 	};
 	function postPic(imageURI){
 		gei('tPic').innerHTML = '<img alt="Your Item" src="' + imageURI + '"></img>';
+		getFS(imageURI);
 	};
 	
 	/* Native Features Success/Error */
@@ -71,12 +82,16 @@ function onDeviceReady() {
 	
 	/* Get Native Features */
 	function addPic(){
-		var picOptions = { quality: 50, destinationType: Camera.DestinationType.FILE_URI };
-		navigator.camera.getPicture( cameraSuccess, cameraError, picOptions );
+		if (gei('iName').value === ''){
+			navigator.notification.beep(2);
+			alert('Please enter item name first');
+		} else {
+			var picOptions = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, saveToPhotoAlbum: true };
+			navigator.camera.getPicture( cameraSuccess, cameraError, picOptions );
+		};
 	};
 	function addLoc(){
-		var geoOptions = { timeout: 10000, enableHighAccuracy: true };
-		navigator.geolocation.getCurrentPosition(onSuccess, onError, geoOptions);
+		navigator.geolocation.getCurrentPosition(onSuccess, onError, { enableHighAccuracy: true, maximumAge: Infinity, timeout: 15000 });
 	};
 	
 	/* Form/Preview Update Manager */
@@ -100,6 +115,106 @@ function onDeviceReady() {
 				};
 			};
 		};
+	};
+	
+	/* Save New Item */
+	function saveItem(){
+		var id 		= currentIMG;
+		item 		= {};
+		item.name	= [gei('iName').value];
+		item.main	= [gei('iMStat').value];
+		item.stat2	= [gei('iStat2').value];
+		item.stat3	= [gei('iStat3').value];
+		item.stat4	= [gei('iStat4').value];
+		item.loc	= [gei('tLoc').innerHTML];
+    
+	    localStorage.setItem(id, JSON.stringify(item));
+	    navigator.notification.alert(
+			'Item saved to stash!',
+			refreshHome,
+			'SUCCESS',
+			'OK'
+        );
+	};
+	
+	/* Populate Stash */
+	function popStash(){
+		for(i=0, l=localStorage.length; i<l; i++) {
+            /* Create Div for Item */
+			var iDiv = document.createElement("div");
+			if (i === 0){
+				gei('lList').appendChild(iDiv);
+			} else {
+				if (i%2){
+					gei('rList').appendChild(iDiv);
+				} else {
+					gei('lList').appendChild(iDiv);
+				};
+			};
+			/* Get Item Info */
+			var key = localStorage.key(i);
+			var	value = localStorage.getItem(key);
+			var	epic = JSON.parse(value);
+            /* Item Name */
+            var nameH2 = document.createElement("h2");
+            nameH2.innerHTML = epic.name[0];
+            iDiv.appendChild(nameH2);
+            /* Create Div for Image */
+			var imgDiv = document.createElement("div");
+			iDiv.appendChild(imgDiv);
+			iDiv.style.margin = '0 1%';
+			/* Add Image */
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getDir, function(error){fail(error, 'Get File System')});
+			function getDir(fs) {
+        		fs.root.getDirectory('Epics', {create: false, exclusive: false}, getImage, function(error){fail(error, 'Get Directory')});
+        		function getImage(dir){
+        			dir.getFile(key, {create: false, exclusive: false}, popImage, function(error){fail(error, 'Get Image')});
+	        		function popImage(image){
+	        			imgDiv.innerHTML = gei('tPic').innerHTML = '<img alt="Your Item" style="width: 100%; height: auto" src="' + image.fullPath + '"></img>';
+	        		};
+	        	};
+        	};
+        	/* Stat1 */
+            var statP1 = document.createElement("h3");
+            statP1.innerHTML = epic.main[0];
+            iDiv.appendChild(statP1);
+            /* Stat2 */
+            var statP2 = document.createElement("p");
+            statP2.innerHTML = epic.stat2[0];
+            iDiv.appendChild(statP2);
+            /* Stat3 */
+            var statP3 = document.createElement("p");
+            statP3.innerHTML = epic.stat3[0];
+            iDiv.appendChild(statP3);
+            /* Stat4 */
+            var statP4 = document.createElement("p");
+            statP4.innerHTML = epic.stat4[0];
+            iDiv.appendChild(statP4);
+            /* Location */
+            var loc = document.createElement("p");
+            loc.innerHTML = epic.loc[0];
+            iDiv.appendChild(loc);
+    	};
+	};
+	/* Display Toggles */
+	function newItem(){
+		gei('home').style.display = 'none';
+		gei('newItem').style.display = '';
+		gei('backHome').style.display = '';
+	};
+	function stash(){
+		gei('home').style.display = 'none';
+		gei('stash').style.display = '';
+		gei('backHome').style.display = '';
+		gei('lList').innerHTML = '';
+		gei('rList').innerHTML = '';
+		popStash();
+	};
+	function goHome(){
+		gei('home').style.display = '';
+		gei('newItem').style.display = 'none';
+		gei('stash').style.display = 'none';
+		gei('backHome').style.display = 'none';
 	};
 
 	var cn = gei('clickNew');
@@ -131,5 +246,8 @@ function onDeviceReady() {
 	
 	var st4 = gei('iStat4');
 	st4.addEventListener('change', chngDsply);
+	
+	var si = gei('saveItem');
+	si.addEventListener('click', saveItem);
 };	
 document.addEventListener("deviceready", onDeviceReady());
