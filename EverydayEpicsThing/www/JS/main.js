@@ -110,6 +110,8 @@ window.addEventListener("DOMContentLoaded", function () {
             var key = localStorage.key(i)
             var value = localStorage.getItem(key);
             var rune = JSON.parse(value);
+            alert(value);
+            alert(rune);
             var makeSubList = document.createElement("ul");
             makeli.appendChild(makeSubList);
             makeSubList.style.listStyle = "none";

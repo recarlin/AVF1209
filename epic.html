@@ -10,6 +10,7 @@
 	<meta name='robots' content='index, follow' />
 	<meta http-equiv='cleartype' content='on'/>
 	<link rel='stylesheet' href='CSS/epic.css'/>
+	<script type='text/javascript' charset='utf-8' src='JS/cordova-2.0.0.js'></script>
 </head>
 <body>
 	<div id='allStuff'>
@@ -37,9 +38,9 @@
 			<div class='logo2'>
 				<img src='images/logo3.png' alt='Everyday Epics'/>
 			</div>
-			<div id='divideStuff'>
+			<div class='divideStuff'>
 				<!-- Left Column -->
-				<div id='leftCol'>
+				<div class='leftCol'>
 					<div>
 						<h2 id='tName'>Keyboard of HTML</h2>
 						<div id='tPic'></div>
@@ -51,9 +52,12 @@
 							<li><p id='tLoc'></p></li>
 						</ul>
 					</div>
+					<div id='saveItem'>
+						<h1>ADD ITEM TO STASH</h1>
+					</div>
 				</div>
 				<!-- Right Column -->
-				<div id='rightCol'>
+				<div class='rightCol'>
 					<!-- Basics -->
 					<section id='basics'>
 						<ul>
@@ -83,7 +87,6 @@
 							<p>Picture</p>
 						</div>
 					</section>
-					
 				</div>
 			</div>
 		</section>
@@ -93,8 +96,17 @@
 			<div class='logo2'>
 				<img src='images/logo3.png' alt='Everyday Epics'/>
 			</div>
-			<h1>Stashed Epics</h1>
-	
+			<!-- Item List -->
+			<div class='divideStuff'>
+				<!-- Left Column -->
+				<div class='leftCol'>
+					<section id='lList'></section>
+				</div>
+				<!-- Right Column -->
+				<div class='rightCol'>
+					<section id='rList'></section>
+				</div>
+			</div>
 		</section>
 		<!-- Item Display -->
 		<section id='item' style='display: none'>

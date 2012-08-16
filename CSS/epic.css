@@ -90,45 +90,59 @@ ul {
 }
 
 /* Layout Styles */
-#divideStuff {
+.divideStuff {
 	float: left;
 	width: 100%;
 	position: relative;
 	right: 50%;
 }
-#rightCol, 
-#leftCol {
+.rightCol, 
+.leftCol {
 	float: left;
 	position: relative;
 	overflow: hidden;
 	width: 46%;
 }
-#leftCol {
+.leftCol {
 	left: 52%;
 }
-#rightCol {
+.rightCol {
 	left: 56%;
 }
 
 /* Left Column Styles */
-#leftCol div {
+.leftCol div {
 	color: #FFFF00;
 	border: .25em solid #FFFF00;
 	border-radius: .5em;
 }
-#leftCol h2 {
+.leftCol h2 {
 	margin-left: 2%;
 }
 #tPic {
-
 	margin: 0 1%;
 }
 #tPic img {
 	width: 100%;
 	height: auto;
 }
+#saveItem {
+	margin-top: 1%;
+	text-align: center;
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+}
 
 /* Right Column Styles */
+.rightCol div {
+	color: #FFFF00;
+	border: .25em solid #FFFF00;
+	border-radius: .5em;
+}
+.rightCol h2 {
+	margin-left: 2%;
+}
 #basics {
 	color: #FFFF00;
 	border: .25em solid #FFFF00;
@@ -150,13 +164,10 @@ input {
 #location, #picture {
 	display: inline-block;
 	margin: 0 .1em .1em .1em;
-	color: #FFFF00;
-	border: .25em solid #FFFF00;
 	width: 6em;
-	border-radius: .5em;
 	text-align: center;
 }
-#location:active, #picture:active {
+#location:active, #picture:active, #saveItem:active {
 	border-bottom: .25em solid red;
 }
 #location {
@@ -171,5 +182,8 @@ input {
 @media (max-width: 640px) {
 	#logo {
 		border: .35em double #FFFF00;
+	}
+	#saveItem {
+		font-size: .75em;
 	}
 }
