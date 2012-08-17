@@ -17,16 +17,26 @@ function onDeviceReady(){
 	
 	/* Create Folder/Move Picture */
 	function getFS(imageURI){
+		/* Get File System */
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getFile, function(error){fail(error, 'File System')});
 		function getFile(fs){  
+			/* Get Image File */
 			window.resolveLocalFileSystemURI(imageURI, getDestination, function(error){fail(error, 'Get File')});
 			function getDestination(file){  
+				/* Create Folder */
 				fs.root.getDirectory('Epics', {create: true, exclusive: false}, gotDir, function(error){fail(error, 'Create Directory')});
 				function gotDir(destination){
+					/* Move Image and Rename */
 					var fName = gei('iName').value + '.jpg';
 					file.moveTo(destination, fName, moveSuccess, function(error){fail(error, 'Move File')});
 					function moveSuccess(){
-						currentIMG = fName;
+						/* Update Image on Template */
+						destination.getFile(fName, {create: false, exclusive: false}, finishPic, function(error){fail(error, 'Get Image')});
+						function finishPic(newIMG){
+							gei('tPic').innerHTML = '<img alt="Your Item" src="' + newIMG.fullPath + '"></img>';
+							currentIMG = '';
+							currentIMG = fName;
+						};
 					};
 				};
 			};
@@ -39,7 +49,6 @@ function onDeviceReady(){
 	};
 	function postPic(imageURI){
 		gei('tPic').innerHTML = '<img alt="Your Item" src="' + imageURI + '"></img>';
-		getFS(imageURI);
 	};
 	
 	/* Native Features Success/Error */
@@ -65,7 +74,7 @@ function onDeviceReady(){
 		navigator.notification.beep(1);
 		navigator.notification.alert(
 			'Picture added!',
-			postPic(imageURI),
+			getFS(imageURI),
 			'SUCCESS',
 			'OK'
         );
@@ -86,8 +95,7 @@ function onDeviceReady(){
 			navigator.notification.beep(2);
 			alert('Please enter item name first');
 		} else {
-			var picOptions = { quality: 50, destinationType: Camera.DestinationType.FILE_URI, saveToPhotoAlbum: true };
-			navigator.camera.getPicture( cameraSuccess, cameraError, picOptions );
+			navigator.camera.getPicture( cameraSuccess, cameraError, { quality: 50, destinationType: Camera.DestinationType.FILE_URI, saveToPhotoAlbum: false });
 		};
 	};
 	function addLoc(){
@@ -139,17 +147,26 @@ function onDeviceReady(){
 	
 	/* Populate Stash */
 	function popStash(){
+		/* Image Adder */
+		function getStashImage(key, imgDiv){
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getDir, function(error){fail(error, 'Get File System')});
+			function getDir(fs) {
+	    		fs.root.getDirectory('Epics', {create: false, exclusive: false}, getImage, function(error){fail(error, 'Get Directory')});
+	    		function getImage(dir){
+	    			dir.getFile(key, {create: false, exclusive: false}, popImage, function(error){fail(error, 'Get Image')});
+	        		function popImage(image){
+	        			imgDiv.innerHTML = '<img alt="Your Item" style="width: 100%; height: auto" src="' + image.fullPath + '"></img>';
+	        		};
+	        	};
+	        };
+    	};
 		for(i=0, l=localStorage.length; i<l; i++) {
             /* Create Div for Item */
 			var iDiv = document.createElement("div");
-			if (i === 0){
+			if (i%2 === 0){
 				gei('lList').appendChild(iDiv);
 			} else {
-				if (i%2){
-					gei('rList').appendChild(iDiv);
-				} else {
-					gei('lList').appendChild(iDiv);
-				};
+				gei('rList').appendChild(iDiv);
 			};
 			/* Get Item Info */
 			var key = localStorage.key(i);
@@ -164,33 +181,24 @@ function onDeviceReady(){
 			iDiv.appendChild(imgDiv);
 			iDiv.style.margin = '0 1%';
 			/* Add Image */
-			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getDir, function(error){fail(error, 'Get File System')});
-			function getDir(fs) {
-        		fs.root.getDirectory('Epics', {create: false, exclusive: false}, getImage, function(error){fail(error, 'Get Directory')});
-        		function getImage(dir){
-        			dir.getFile(key, {create: false, exclusive: false}, popImage, function(error){fail(error, 'Get Image')});
-	        		function popImage(image){
-	        			imgDiv.innerHTML = gei('tPic').innerHTML = '<img alt="Your Item" style="width: 100%; height: auto" src="' + image.fullPath + '"></img>';
-	        		};
-	        	};
-        	};
-        	/* Stat1 */
+			getStashImage(key, imgDiv);
+        	/* Add Stat1 */
             var statP1 = document.createElement("h3");
             statP1.innerHTML = epic.main[0];
             iDiv.appendChild(statP1);
-            /* Stat2 */
+            /* Add Stat2 */
             var statP2 = document.createElement("p");
             statP2.innerHTML = epic.stat2[0];
             iDiv.appendChild(statP2);
-            /* Stat3 */
+            /* Add Stat3 */
             var statP3 = document.createElement("p");
             statP3.innerHTML = epic.stat3[0];
             iDiv.appendChild(statP3);
-            /* Stat4 */
+            /* Add Stat4 */
             var statP4 = document.createElement("p");
             statP4.innerHTML = epic.stat4[0];
             iDiv.appendChild(statP4);
-            /* Location */
+            /* Add Location */
             var loc = document.createElement("p");
             loc.innerHTML = epic.loc[0];
             iDiv.appendChild(loc);
@@ -201,6 +209,7 @@ function onDeviceReady(){
 		gei('home').style.display = 'none';
 		gei('newItem').style.display = '';
 		gei('backHome').style.display = '';
+		gei('tPic').innerHTML = '';
 	};
 	function stash(){
 		gei('home').style.display = 'none';
