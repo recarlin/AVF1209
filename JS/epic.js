@@ -10,8 +10,6 @@ function onDeviceReady(){
 		location.reload();
 	};
 	function fail(error, from){
-		error = error;
-		from = from;
 		alert('From: ' + from +' Error: ' + error.code);
 	};
 	

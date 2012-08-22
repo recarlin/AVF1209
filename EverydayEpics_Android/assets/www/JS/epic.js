@@ -10,8 +10,6 @@ function onDeviceReady(){
 		location.reload();
 	};
 	function fail(error, from){
-		error = error;
-		from = from;
 		alert('From: ' + from +' Error: ' + error.code);
 	};
 	
@@ -160,9 +158,12 @@ function onDeviceReady(){
 	        	};
 	        };
     	};
+    	function addButtons(){
+    		
+    	};
 		for(i=0, l=localStorage.length; i<l; i++) {
             /* Create Div for Item */
-			var iDiv = document.createElement("div");
+			var iDiv = document.createElement('div');
 			if (i%2 === 0){
 				gei('lList').appendChild(iDiv);
 			} else {
@@ -173,35 +174,48 @@ function onDeviceReady(){
 			var	value = localStorage.getItem(key);
 			var	epic = JSON.parse(value);
             /* Item Name */
-            var nameH2 = document.createElement("h2");
+            var nameH2 = document.createElement('h2');
             nameH2.innerHTML = epic.name[0];
             iDiv.appendChild(nameH2);
             /* Create Div for Image */
-			var imgDiv = document.createElement("div");
+			var imgDiv = document.createElement('div');
 			iDiv.appendChild(imgDiv);
 			iDiv.style.margin = '0 1%';
 			/* Add Image */
 			getStashImage(key, imgDiv);
         	/* Add Stat1 */
-            var statP1 = document.createElement("h3");
+            var statP1 = document.createElement('h3');
             statP1.innerHTML = epic.main[0];
             iDiv.appendChild(statP1);
             /* Add Stat2 */
-            var statP2 = document.createElement("p");
+            var statP2 = document.createElement('p');
             statP2.innerHTML = epic.stat2[0];
             iDiv.appendChild(statP2);
             /* Add Stat3 */
-            var statP3 = document.createElement("p");
+            var statP3 = document.createElement('p');
             statP3.innerHTML = epic.stat3[0];
             iDiv.appendChild(statP3);
             /* Add Stat4 */
-            var statP4 = document.createElement("p");
+            var statP4 = document.createElement('p');
             statP4.innerHTML = epic.stat4[0];
             iDiv.appendChild(statP4);
             /* Add Location */
-            var loc = document.createElement("p");
+            var loc = document.createElement('p');
             loc.innerHTML = epic.loc[0];
             iDiv.appendChild(loc);
+            /* Add Edit/Delete */
+            var sec = document.createElement('section'),
+            	edit = document.createElement('div'),
+            	del = document.createElement('div');
+            sec.appendChild(iDiv);
+            sec.appendChild(edit);
+            sec.appendChild(del);
+            edit.key = key;
+            edit.className = 'editButton';
+            edit.innerHTML = '<p>Edit</p>'
+            del.key = key;
+            del.className = 'delButton';
+            del.innerHTML = '<p>Delete</p>'
     	};
 	};
 	/* Display Toggles */
