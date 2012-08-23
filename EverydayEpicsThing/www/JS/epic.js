@@ -1,6 +1,5 @@
 var currentIMG;
 function onDeviceReady(){
-	
 	/* General */
 	function gei(id) {
 	    var e = document.getElementById(id);
@@ -16,7 +15,6 @@ function onDeviceReady(){
 	function fail(error, from){
 		alert('From: ' + from +' Error: ' + error.code);
 	};
-	
 	/* Create Folder/Move Picture */
 	function getFS(imageURI){
 		/* Get File System */
@@ -35,8 +33,7 @@ function onDeviceReady(){
 						/* Update Image on Template */
 						destination.getFile(fName, {create: false, exclusive: false}, finishPic, function(error){fail(error, 'Get Image')});
 						function finishPic(newIMG){
-							gei('tPic').innerHTML = '<img alt="Your Item" src="' + newIMG.fullPath + '"></img>';
-							currentIMG = '';
+							gei('tPic').innerHTML = '<img alt="Your Item" src="' + newIMG.fullPath + '?time=' + new Date().getTime() + '"></img>';
 							currentIMG = fName;
 						};
 					};
@@ -44,18 +41,12 @@ function onDeviceReady(){
 			};
 		};
 	};
-	
 	/* Post Native Features */
 	function postLoc(position){
 		gei('tLoc').innerHTML = 'Item found at ' + position.coords.latitude + ' latitude' + '<br/>' + 'and ' + position.coords.longitude + ' longitude';
 	};
-	function postPic(imageURI){
-		gei('tPic').innerHTML = '<img alt="Your Item" src="' + imageURI + '"></img>';
-	};
-	
 	/* Native Features Success/Error */
 	function onSuccess(position){
-		navigator.notification.beep(1);
 		navigator.notification.alert(
 			'Location added!',
 			postLoc(position),
@@ -64,7 +55,7 @@ function onDeviceReady(){
         );
 	};
 	function onError(){
-		navigator.notification.beep(2);
+		navigator.notification.beep(1);
 		navigator.notification.alert(
 			'Location failed!',
 			null,
@@ -73,7 +64,6 @@ function onDeviceReady(){
         );
 	};
 	function cameraSuccess(imageURI){
-		navigator.notification.beep(1);
 		navigator.notification.alert(
 			'Picture added!',
 			getFS(imageURI),
@@ -82,7 +72,7 @@ function onDeviceReady(){
         );
 	};
 	function cameraError(){
-		navigator.notification.beep(2);
+		navigator.notification.beep(1);
 		navigator.notification.alert(
 			'Picture failed!',
 			null,
@@ -90,20 +80,50 @@ function onDeviceReady(){
 			'OK'
         );
 	};
-	
 	/* Get Native Features */
 	function addPic(){
-		if (gei('iName').value === ''){
+		function takePic(){
+			navigator.camera.getPicture( cameraSuccess, cameraError, { quality: 50, destinationType: Camera.DestinationType.FILE_URI, saveToPhotoAlbum: false });
+		};
+		function removeOld(){
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getDir, function(error){fail(error, 'Get File System')});
+			function getDir(fs) {
+	    		fs.root.getDirectory('Epics', {create: false, exclusive: false}, getImage, function(error){fail(error, 'Get Directory')});
+	    		function getImage(dir){
+	    			dir.getFile(currentIMG, {create: false, exclusive: false}, delImage, function(error){fail(error, 'Get Image')});
+	        		function delImage(image){
+	        			currentIMG = '';
+	        			image.remove(takePic, function(error){fail(error, 'Remove Image')});
+	        		};
+	        	};
+	        };
+		};
+		function newPic(buttonIndex){
+			if(buttonIndex === 1){
+				removeOld();
+			} else {
+				alert('Picture not added!');
+			};
+		};	
+		if(gei('iName').value === ''){
 			navigator.notification.beep(2);
 			alert('Please enter item name first');
 		} else {
-			navigator.camera.getPicture( cameraSuccess, cameraError, { quality: 50, destinationType: Camera.DestinationType.FILE_URI, saveToPhotoAlbum: false });
+			if(currentIMG === ''){
+				takePic();
+			} else {
+				navigator.notification.confirm(
+	            'Replace existing picture with a new one?',
+	            newPic,
+	            'Confirm Picture',
+	            'Yes,No'
+	        	);
+			};
 		};
 	};
 	function addLoc(){
 		navigator.geolocation.getCurrentPosition(onSuccess, onError, { enableHighAccuracy: true, maximumAge: Infinity, timeout: 15000 });
 	};
-	
 	/* Form/Preview Update Manager */
 	function chngDsply(){
 		var chngTxt = this.value,
@@ -126,7 +146,6 @@ function onDeviceReady(){
 			};
 		};
 	};
-	
 	/* Save New Item */
 	function saveItem(){
 		var id 		= currentIMG;
@@ -137,7 +156,7 @@ function onDeviceReady(){
 		item.stat3	= [gei('iStat3').value];
 		item.stat4	= [gei('iStat4').value];
 		item.loc	= [gei('tLoc').innerHTML];
-    
+    	currentIMG = '';
 	    localStorage.setItem(id, JSON.stringify(item));
 	    navigator.notification.alert(
 			'Item saved to stash!',
@@ -145,28 +164,65 @@ function onDeviceReady(){
 			'SUCCESS',
 			'OK'
         );
+        
 	};
-	
 	/* Edit Item */
 	function editItem(){
-		alert('edit works')
-	};
-	/* Delete Item */
-	
-	
-	function deleteItem(){
-		var key = this.key
-		localStorage.removeItem(key);
+		newItem();
+		/* Add Stats */
+		var key = this.key;
+			item = localStorage.getItem(key);
+			iVal = JSON.parse(item);
+		gei('iName').value = iVal.name[0];
+		gei('tName').innerHTML = iVal.name[0];
+		gei('iMStat').value = iVal.main[0];
+		gei('tMStat').innerHTML = iVal.main[0];
+		gei('iStat2').value = iVal.stat2[0];
+		gei('tStat2').innerHTML = iVal.stat2[0];
+		gei('iStat3').value = iVal.stat3[0];
+		gei('tStat3').innerHTML = iVal.stat3[0];
+		gei('iStat4').value = iVal.stat4[0];
+		gei('tStat4').innerHTML = iVal.stat4[0];
+		gei('tLoc').innerHTML = iVal.loc[0];
+		/* Add Picture */
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getDir, function(error){fail(error, 'Get File System')});
 		function getDir(fs) {
     		fs.root.getDirectory('Epics', {create: false, exclusive: false}, getImage, function(error){fail(error, 'Get Directory')});
     		function getImage(dir){
-    			dir.getFile(key, {create: false, exclusive: false}, delImage, function(error){fail(error, 'Get Image')});
-        		function delImage(image){
-        			image.remove(function(){alert('Item deleted!')}, function(error){fail(error, 'Remove Image')});
-        		};
+    			dir.getFile(key, {create: false, exclusive: false}, addImage, function(error){fail(error, 'Get Image')});
+        		function addImage(image){
+        			gei('tPic').innerHTML = '<img alt="Your Item" src="' + image.fullPath + '?time=' + new Date().getTime() + '"></img>'
+					currentIMG = key;
+				};
         	};
         };
+	};
+	/* Delete Item */
+	function deleteItem(){
+		navigator.notification.confirm(
+	            'Delete this item?',
+	            deleteConfirm,
+	            'Confirm Delete',
+	            'Yes,No'
+	        	);
+    	function deleteConfirm(buttonIndex){
+    		if(buttonIndex === 1){
+	    		var key = this.key
+				localStorage.removeItem(key);
+				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getDir, function(error){fail(error, 'Get File System')});
+				function getDir(fs) {
+		    		fs.root.getDirectory('Epics', {create: false, exclusive: false}, getImage, function(error){fail(error, 'Get Directory')});
+		    		function getImage(dir){
+		    			dir.getFile(key, {create: false, exclusive: false}, delImage, function(error){fail(error, 'Get Image')});
+		        		function delImage(image){
+		        			image.remove(function(){alert('Item deleted!')}, function(error){fail(error, 'Remove Image')});
+		        		};
+		        	};
+		        };
+    		} else {
+    			alert('Item deletion cancelled!');
+    		};
+    	};
     };
 	/* Edit/Delete Listeners */
 	function EDListen(){
@@ -190,13 +246,10 @@ function onDeviceReady(){
 	    		function getImage(dir){
 	    			dir.getFile(key, {create: false, exclusive: false}, popImage, function(error){fail(error, 'Get Image')});
 	        		function popImage(image){
-	        			imgDiv.innerHTML = '<img alt="Your Item" style="width: 100%; height: auto" src="' + image.fullPath + '"></img>';
+	        			imgDiv.innerHTML = '<img alt="Your Item" src="' + image.fullPath + '?time=' + new Date().getTime() + '"></img>'
 	        		};
 	        	};
 	        };
-    	};
-    	function addButtons(){
-    		
     	};
 		for(i=0, l=localStorage.length; i<l; i++) {
             /* Create Div for Item */
@@ -254,20 +307,23 @@ function onDeviceReady(){
             del.innerHTML = '<p>Delete</p>'
     	};
 	};
-	
 	/* Clear Stash */
-	function clearStash(){
-		function clearSuccess(){
-			alert('All items cleared from stash!')
-			refreshHome();
-		};
-		localStorage.clear();
-		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getDir, function(error){fail(error, 'Get File System')});
-		function getDir(fs) {
-    		fs.root.getDirectory('Epics', {create: false, exclusive: false}, deleteDir, function(error){fail(error, 'Get Directory')});
-    		function deleteDir(dir){
-    			dir.removeRecursively(clearSuccess, function(error){fail(error, 'Remove Directory')});
-        	};
+	function clearStash(buttonIndex){
+		if(buttonIndex === 1){
+			function clearSuccess(){
+				alert('All items cleared from stash!')
+				refreshHome();
+			};
+			localStorage.clear();
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getDir, function(error){fail(error, 'Get File System')});
+			function getDir(fs) {
+	    		fs.root.getDirectory('Epics', {create: false, exclusive: false}, deleteDir, function(error){fail(error, 'Get Directory')});
+	    		function deleteDir(dir){
+	    			dir.removeRecursively(clearSuccess, function(error){fail(error, 'Remove Directory')});
+	        	};
+	        };
+        } else {
+        	alert('Stash clearing cancelled!');
         };
 	};
 	/* Confirm Clear */
@@ -279,13 +335,14 @@ function onDeviceReady(){
             'Yes,No'
         );
 	};
-	
 	/* Display Toggles */
 	function newItem(){
 		gei('home').style.display = 'none';
+		gei('stash').style.display = 'none';
 		gei('newItem').style.display = '';
 		gei('backHome').style.display = '';
 		gei('tPic').innerHTML = '';
+		currentIMG = '';
 	};
 	function stash(){
 		gei('home').style.display = 'none';

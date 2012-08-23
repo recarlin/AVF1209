@@ -126,7 +126,7 @@ ul {
 #tPic {
 	margin: 0 1%;
 }
-#tPic img {
+img {
 	width: 100%;
 	height: auto;
 }
