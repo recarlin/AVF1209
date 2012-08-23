@@ -8,13 +8,13 @@
 	<meta name='description' content='Everyday Epics'/>
 	<meta name='keywords' content='Everyday Epics'/>
 	<meta name='robots' content='index, follow' />
-	<meta http-equiv='cleartype' content='on'/>
 	<link rel='stylesheet' href='CSS/epic.css'/>
 	<script type='text/javascript' charset='utf-8' src='JS/cordova-2.0.0.js'></script>
 </head>
 <body>
 	<div id='allStuff'>
 		<div id='backHome' style='display: none'><p>Home</p></div>
+		<div id='clear' style='display: none'><p>Clear</p></div>
 		<!-- Home Display -->
 		<section id='home'>
 			<!-- Header -->
@@ -60,22 +60,24 @@
 				<div class='rightCol'>
 					<!-- Basics -->
 					<section id='basics'>
-						<ul>
-							<li><label for='iName'>Item Name:</label></br>
-							<input type='text' id='iName' placeholder='Keyboard of HTML'/></li>
-							
-							<li><label for='iMStat'>Main Stat:</label></br>
-							<input type='text' id='iMStat' placeholder='9001 DPS'/></li>
-							
-							<li><label for='iStat2'>Stat 2:</label></br>
-							<input type='text' id='iStat2' placeholder='+1337 Awesome'/></li>
-							
-							<li><label for='iStat3'>Stat 3:</label></br>
-							<input type='text' id='iStat3' placeholder='+42 Agility'/></li>
-							
-							<li><label for='iStat4'>Stat 4:</label></br>
-							<input type='text' id='iStat4' placeholder='CODE MODE: Grants the user extreme coding abilities for 1 hour.'/></li>
-						</ul>
+						<form>
+							<ul>
+								<li><label for='iName'>Item Name:</label>
+								<input type='text' id='iName' placeholder='Keyboard of HTML'/></li>
+								
+								<li><label for='iMStat'>Main Stat:</label>
+								<input type='text' id='iMStat' placeholder='9001 DPS'/></li>
+								
+								<li><label for='iStat2'>Stat 2:</label>
+								<input type='text' id='iStat2' placeholder='+1337 Awesome'/></li>
+								
+								<li><label for='iStat3'>Stat 3:</label>
+								<input type='text' id='iStat3' placeholder='+42 Agility'/></li>
+								
+								<li><label for='iStat4'>Stat 4:</label>
+								<input type='text' id='iStat4' placeholder='CODE MODE: Grants the user extreme coding abilities for 1 hour.'/></li>
+							</ul>
+						</form>
 					</section>
 					<!-- Native Features -->
 					<section id='nativeFeatures'>

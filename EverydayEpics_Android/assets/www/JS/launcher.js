@@ -6,7 +6,6 @@ function onDeviceReady() {
 	};
 	function gec(cln) {
 	    var e = document.getElementsByClassName(cln);
-	   console.log(e)
 	    return e;
 	};
 	function showDis1(){

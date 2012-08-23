@@ -38,7 +38,6 @@ body {
 }
 #buttons div {
 	width: 40%;
-	display: inline-block;
 }
 #buttonNew {
 	float: left;
@@ -56,7 +55,7 @@ body {
 	width: 100%;
 }
 #bckbtn {
-	padding: .5em;
+	padding: .25em;
 }
 
 /* New Item Styles */
@@ -81,8 +80,13 @@ body {
 	border-radius: .5em;
 	padding: 0 .5em;
 }
-li p{
-	line-height: -.5em;
+#clear {
+	color: #FFFF00;
+	float: right;
+	margin: .25em;
+	border: .25em solid red;
+	border-radius: .5em;
+	padding: 0 .5em;
 }
 ul {
 	margin-left: -2em;
@@ -122,7 +126,7 @@ ul {
 #tPic {
 	margin: 0 1%;
 }
-#tPic img {
+img {
 	width: 100%;
 	height: auto;
 }
@@ -178,7 +182,16 @@ input {
 }
 
 /* Stash Styles */
-
+.editButton {
+	float: left;
+	width: 20%;
+	text-align: center;
+}
+.delButton {
+	float: right;
+	width: 20%;
+	text-align: center;
+}
 @media (max-width: 640px) {
 	#logo {
 		border: .35em double #FFFF00;
