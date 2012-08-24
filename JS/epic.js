@@ -199,15 +199,15 @@ function onDeviceReady(){
 	};
 	/* Delete Item */
 	function deleteItem(){
+		var key = this.key
 		navigator.notification.confirm(
-	            'Delete this item?',
-	            deleteConfirm,
-	            'Confirm Delete',
-	            'Yes,No'
-	        	);
+            'Delete this item?',
+            deleteConfirm,
+            'Confirm Delete',
+            'Yes,No'
+    	);
     	function deleteConfirm(buttonIndex){
     		if(buttonIndex === 1){
-	    		var key = this.key
 				localStorage.removeItem(key);
 				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getDir, function(error){fail(error, 'Get File System')});
 				function getDir(fs) {
@@ -215,7 +215,11 @@ function onDeviceReady(){
 		    		function getImage(dir){
 		    			dir.getFile(key, {create: false, exclusive: false}, delImage, function(error){fail(error, 'Get Image')});
 		        		function delImage(image){
-		        			image.remove(function(){alert('Item deleted!')}, function(error){fail(error, 'Remove Image')});
+		        			image.remove(delSuccess, function(error){fail(error, 'Remove Image')});
+		        			function delSuccess(){
+			        			alert('Item deleted!');
+			        			stash();
+		        			};
 		        		};
 		        	};
 		        };
